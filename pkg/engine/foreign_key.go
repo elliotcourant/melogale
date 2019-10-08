@@ -12,9 +12,17 @@ type AddForeignKeyConstraintPlan struct {
 	name string
 }
 
+func (a AddForeignKeyConstraintPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (a AddForeignKeyConstraintPlan) Name() string {
+	return fmt.Sprintf("AddForeignKeyConstraintPlan_%s", a.name)
+}
+
 func (a AddForeignKeyConstraintPlan) Explain() Explanation {
 	return Explanation{
-		Level:  1,
+		Level:  4,
 		Action: SET,
 		Name:   "foreign key constraint",
 		Desc:   fmt.Sprintf("create foreign key constraint header: %s", a.name),

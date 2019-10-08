@@ -11,9 +11,17 @@ type CreateTablePlan struct {
 	columns   []*ast.ColumnDef
 }
 
+func (c *CreateTablePlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (c *CreateTablePlan) Name() string {
+	return fmt.Sprintf("CreateTablePlan_%s", c.tableName)
+}
+
 func (c *CreateTablePlan) Explain() Explanation {
 	return Explanation{
-		Level:  1,
+		Level:  2,
 		Action: SET,
 		Name:   "table header",
 		Desc:   fmt.Sprintf("create table header: %s", c.tableName),

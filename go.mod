@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9 // indirect
+	github.com/awalterschulze/gographviz v0.0.0-20190522210029-fa59802746ab
 	github.com/dgraph-io/badger v0.0.0-20191004104532-f50343ff404d
 	github.com/elliotcourant/buffers v0.0.0-20191006025953-6df991aa2d22
 	github.com/pingcap/parser v0.0.0-20190930134508-c12dd03f9453

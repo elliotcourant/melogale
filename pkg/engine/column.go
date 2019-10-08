@@ -12,6 +12,14 @@ type AddColumnPlan struct {
 	definition *ast.ColumnDef
 }
 
+func (a *AddColumnPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (a *AddColumnPlan) Name() string {
+	return fmt.Sprintf("AddColumnPlan_%s_%s", a.tableName, a.definition.Name.String())
+}
+
 func (p *plannerBase) NewAddColumnPlan(tableName string, def *ast.ColumnDef) PlanStack {
 	stack := PlanStack{
 		&AddColumnPlan{
@@ -32,7 +40,7 @@ func (p *plannerBase) NewAddColumnPlan(tableName string, def *ast.ColumnDef) Pla
 
 func (a *AddColumnPlan) Explain() Explanation {
 	return Explanation{
-		Level:  2,
+		Level:  3,
 		Action: SET,
 		Name:   "column header",
 		Desc:   fmt.Sprintf("create column header: %s -> %s", a.tableName, a.definition.Name.String()),
@@ -60,6 +68,14 @@ func (a *AddColumnPlan) Execute(ctx ExecuteContext) error {
 type ColumnDoesExistPlan struct {
 	tableName  string
 	columnName string
+}
+
+func (c *ColumnDoesExistPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (c *ColumnDoesExistPlan) Name() string {
+	return fmt.Sprintf("ColumnDoesExistPlan_%s_%s", c.tableName, c.columnName)
 }
 
 func (c *ColumnDoesExistPlan) Explain() Explanation {

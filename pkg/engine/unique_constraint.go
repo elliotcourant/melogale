@@ -10,9 +10,17 @@ type AddUniqueConstraintPlan struct {
 	name string
 }
 
+func (a AddUniqueConstraintPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (a AddUniqueConstraintPlan) Name() string {
+	return fmt.Sprintf("AddUniqueConstraintPlan_%s", a.name)
+}
+
 func (a AddUniqueConstraintPlan) Explain() Explanation {
 	return Explanation{
-		Level:  1,
+		Level:  4,
 		Action: SET,
 		Name:   "unique constraint",
 		Desc:   fmt.Sprintf("create unique constraint header: %s", a.name),

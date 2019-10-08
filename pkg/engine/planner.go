@@ -54,6 +54,8 @@ func (p PlanStack) Execute(ctx ExecuteContext) error {
 type PlanNode interface {
 	Explain() Explanation
 	Execute(ctx ExecuteContext) error
+	Name() string
+	FailurePlan() PlanStack
 }
 
 type Planner interface {
@@ -94,6 +96,14 @@ func (p *plannerBase) Plan(tree ast.StmtNode) PlanStack {
 
 type StatementNode struct {
 	stmt string
+}
+
+func (s StatementNode) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (s StatementNode) Name() string {
+	return "STATEMENT"
 }
 
 func (s StatementNode) Explain() Explanation {

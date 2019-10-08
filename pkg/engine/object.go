@@ -11,9 +11,17 @@ type ObjectIdPlan struct {
 	prefix     []byte
 }
 
+func (o *ObjectIdPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (o *ObjectIdPlan) Name() string {
+	return fmt.Sprintf("ObjectIdPlan_%s_%s", o.objectType, o.name)
+}
+
 func (o *ObjectIdPlan) Explain() Explanation {
 	return Explanation{
-		Level:  0,
+		Level:  2,
 		Action: ID,
 		Name:   "new object",
 		Desc:   fmt.Sprintf("new object id for %s - %s", o.objectType, o.name),

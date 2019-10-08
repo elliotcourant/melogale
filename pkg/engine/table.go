@@ -10,6 +10,14 @@ type TableDoesNotExistPlan struct {
 	prefix    []byte
 }
 
+func (t *TableDoesNotExistPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (t *TableDoesNotExistPlan) Name() string {
+	return fmt.Sprintf("TableDoesNotExistPlan_%s", t.tableName)
+}
+
 func (p *plannerBase) NewTableDoesNotExistPlan(tableName string) PlanNode {
 	return &TableDoesNotExistPlan{
 		tableName: tableName,
@@ -41,6 +49,14 @@ func (t *TableDoesNotExistPlan) Execute(ctx ExecuteContext) error {
 type TableDoesExistPlan struct {
 	tableName string
 	prefix    []byte
+}
+
+func (t *TableDoesExistPlan) FailurePlan() PlanStack {
+	panic("implement me")
+}
+
+func (t *TableDoesExistPlan) Name() string {
+	return fmt.Sprintf("TableDoesExistPlan_%s", t.tableName)
 }
 
 func (p *plannerBase) NewTableDoesExistPlan(tableName string) PlanNode {
