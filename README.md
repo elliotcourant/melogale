@@ -68,3 +68,18 @@ LVL  ACTN  NAME                      DESC                                       
 [04] SET   foreign key constraint    create foreign key constraint header: fk_users_account_id_accounts_account_id    66ffffffffffffffff27666b5f75736572735f6163636f756e745f69645f6163636f756e74735f6163636f756e745f6964
 [04] SET   unique constraint         create unique constraint header: uq_users_email                                  78ffffffffffffffff0e75715f75736572735f656d61696c
 ```
+
+
+
+An example of an insert plan (WORK IN PROGRESS):
+```
+LVL  ACTN  NAME                      DESC                                                                             KEY
+==============================================================================================================================================================
+[-1] NONE  query                     INSERT INTO users (account_id, email, first_name, last_name) VALUES(123, 'me@me.com', 'Elliot', 'Courant');
+[00] GET   table header              table with name [users] must exist                                               74057573657273
+[01] GET   column header             column with name [account_id] must exist on table [users]                        63ffffffffffffffff0a6163636f756e745f6964
+[01] GET   column header             column with name [email] must exist on table [users]                             63ffffffffffffffff05656d61696c
+[01] GET   column header             column with name [first_name] must exist on table [users]                        63ffffffffffffffff0a66697273745f6e616d65
+[01] GET   column header             column with name [last_name] must exist on table [users]                         63ffffffffffffffff096c6173745f6e616d65
+[03] NONE  insert                    insert 1 record(s) into: users -> account_id, email, first_name, last_name
+```

@@ -24,17 +24,27 @@ func (e Explanation) String() string {
 type PlanStack []PlanNode
 
 func (p PlanStack) Explain() string {
+	levels := make([]PlanStack, 10)
+	for _, node := range p {
+		levels[node.Explain().Level+1] = append(levels[node.Explain().Level+1], node)
+	}
+	sortedPlan := make(PlanStack, 0)
+	for _, level := range levels {
+		for _, item := range level {
+			sortedPlan = append(sortedPlan, item)
+		}
+	}
 	header := strings.TrimSpace(fmt.Sprintf("%-4s %-5s %-25s %-80s %-10s", "LVL", "ACTN", "NAME", "DESC", "KEY"))
 	header += "\n"
 	maxWidth := len(header)
 	s := ""
-	for i, e := range p {
+	for i, e := range sortedPlan {
 		x := fmt.Sprintf("%s", e.Explain())
 		if len(x) > maxWidth {
 			maxWidth = len(x)
 		}
 		s += x
-		if i != len(p)-1 {
+		if i != len(sortedPlan)-1 {
 			s += "\n"
 		}
 	}
@@ -83,6 +93,8 @@ func (p *plannerBase) Plan(tree ast.StmtNode) PlanStack {
 		switch stmt := tree.(type) {
 		case *ast.CreateTableStmt:
 			return p.CreateTable(stmt)
+		case *ast.InsertStmt:
+			return p.Insert(stmt)
 		default:
 			panic("not implemented")
 		}

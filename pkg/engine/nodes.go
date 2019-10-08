@@ -5,6 +5,7 @@ var _ PlanNode = &AddForeignKeyConstraintPlan{}
 var _ PlanNode = &AddUniqueConstraintPlan{}
 var _ PlanNode = &ColumnDoesExistPlan{}
 var _ PlanNode = &CreateTablePlan{}
+var _ PlanNode = &InsertPlan{}
 var _ PlanNode = &ObjectIdPlan{}
 var _ PlanNode = &TableDoesExistPlan{}
 var _ PlanNode = &TableDoesNotExistPlan{}
