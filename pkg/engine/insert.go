@@ -57,3 +57,7 @@ func (p *plannerBase) Insert(stmt *ast.InsertStmt) PlanStack {
 
 	return stack
 }
+
+type InsertIndexDatumsPlan struct {
+	tableName string
+}
