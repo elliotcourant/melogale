@@ -67,7 +67,7 @@ func (c *ColumnDoesExistPlan) Explain() Explanation {
 		Level:  1,
 		Action: GET,
 		Name:   "column header",
-		Desc:   fmt.Sprintf("column with nane [%s] must exist on table [%s]", c.columnName, c.tableName),
+		Desc:   fmt.Sprintf("column with name [%s] must exist on table [%s]", c.columnName, c.tableName),
 		Key:    base.NewColumnNamePrefix(math.MaxUint64, c.columnName),
 	}
 }
