@@ -24,15 +24,21 @@ func (e Explanation) String() string {
 type PlanStack []PlanNode
 
 func (p PlanStack) Explain() string {
-	s := strings.TrimSpace(fmt.Sprintf("%-4s %-5s %-25s %-80s %-10s", "LVL", "ACTN", "NAME", "DESC", "KEY"))
-	s += "\n"
-	s += fmt.Sprintf("=====================================================================================================\n")
+	header := strings.TrimSpace(fmt.Sprintf("%-4s %-5s %-25s %-80s %-10s", "LVL", "ACTN", "NAME", "DESC", "KEY"))
+	header += "\n"
+	maxWidth := len(header)
+	s := ""
 	for i, e := range p {
-		s += fmt.Sprintf("%s", e.Explain())
+		x := fmt.Sprintf("%s", e.Explain())
+		if len(x) > maxWidth {
+			maxWidth = len(x)
+		}
+		s += x
 		if i != len(p)-1 {
 			s += "\n"
 		}
 	}
+	s = header + strings.Repeat("=", maxWidth) + "\n" + s
 	return s
 }
 
