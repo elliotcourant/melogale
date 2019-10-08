@@ -77,9 +77,12 @@ LVL  ACTN  NAME                      DESC                                       
 ==============================================================================================================================================================
 [-1] NONE  query                     INSERT INTO users (account_id, email, first_name, last_name) VALUES(123, 'me@me.com', 'Elliot', 'Courant');
 [00] GET   table header              table with name [users] must exist                                               74057573657273
+[01] SCAN  column header             get all columns for table: users                                                 63ffffffffffffffff00
 [01] GET   column header             column with name [account_id] must exist on table [users]                        63ffffffffffffffff0a6163636f756e745f6964
 [01] GET   column header             column with name [email] must exist on table [users]                             63ffffffffffffffff05656d61696c
 [01] GET   column header             column with name [first_name] must exist on table [users]                        63ffffffffffffffff0a66697273745f6e616d65
 [01] GET   column header             column with name [last_name] must exist on table [users]                         63ffffffffffffffff096c6173745f6e616d65
-[03] NONE  insert                    insert 1 record(s) into: users -> account_id, email, first_name, last_name
+[02] SCAN  index header              get all indexes for table: users
+[02] SCAN  unique constraint         get all unique constraints for table: users                                      78ffffffffffffffff00
+[03] SET   insert                    insert 1 record(s) into: users -> account_id, email, first_name, last_name
 ```

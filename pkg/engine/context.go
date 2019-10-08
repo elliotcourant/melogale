@@ -18,6 +18,9 @@ type ExecuteContext interface {
 	AddColumnId(table, column string, id uint8)
 	GetColumnId(table, column string) (uint8, error)
 
+	AddIndex(table string, index interface{})
+	GetIndexes(table string) []interface{}
+
 	Txn() store.Transaction
 }
 
@@ -36,6 +39,14 @@ type execContext struct {
 	columnIds map[string]map[string]uint8
 
 	tables map[string]base.TableHeader
+}
+
+func (e *execContext) AddIndex(table string, index interface{}) {
+	panic("implement me")
+}
+
+func (e *execContext) GetIndexes(table string) []interface{} {
+	panic("implement me")
 }
 
 func (e *execContext) SetObjectId(objectType base.ObjectType, name string, id uint64) {

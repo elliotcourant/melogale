@@ -12,7 +12,7 @@ type AddColumnPlan struct {
 	definition *ast.ColumnDef
 }
 
-func (a *AddColumnPlan) FailurePlan() PlanStack {
+func (a *AddColumnPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 
@@ -70,7 +70,7 @@ type ColumnDoesExistPlan struct {
 	columnName string
 }
 
-func (c *ColumnDoesExistPlan) FailurePlan() PlanStack {
+func (c *ColumnDoesExistPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 
@@ -97,4 +97,34 @@ func (p *plannerBase) NewColumnDoesExistPlan(tableName, columnName string) PlanN
 		tableName:  tableName,
 		columnName: columnName,
 	}
+}
+
+type GetAllTableColumnsPlan struct {
+	tableName string
+}
+
+func (g GetAllTableColumnsPlan) Explain() Explanation {
+	return Explanation{
+		Level:  1,
+		Action: SCAN,
+		Name:   "column header",
+		Desc:   fmt.Sprintf("get all columns for table: %s", g.tableName),
+		Key:    base.NewColumnNamePrefix(math.MaxUint64, ""),
+	}
+}
+
+func (g GetAllTableColumnsPlan) Execute(ctx ExecuteContext) error {
+	panic("implement me")
+}
+
+func (g GetAllTableColumnsPlan) Name() string {
+	return fmt.Sprintf("GetTableColumnsPlan_%s", g.tableName)
+}
+
+func (g GetAllTableColumnsPlan) AlternatePlan() PlanStack {
+	panic("implement me")
+}
+
+func (p *plannerBase) NewGetAllTableColumnsPlan(tableName string) PlanNode {
+	return &GetAllTableColumnsPlan{tableName: tableName}
 }

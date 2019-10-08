@@ -11,7 +11,7 @@ type CreateTablePlan struct {
 	columns   []*ast.ColumnDef
 }
 
-func (c *CreateTablePlan) FailurePlan() PlanStack {
+func (c *CreateTablePlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 

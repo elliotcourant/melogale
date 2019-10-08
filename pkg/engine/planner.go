@@ -65,7 +65,7 @@ type PlanNode interface {
 	Explain() Explanation
 	Execute(ctx ExecuteContext) error
 	Name() string
-	FailurePlan() PlanStack
+	AlternatePlan() PlanStack
 }
 
 type Planner interface {
@@ -110,7 +110,7 @@ type StatementNode struct {
 	stmt string
 }
 
-func (s StatementNode) FailurePlan() PlanStack {
+func (s StatementNode) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 

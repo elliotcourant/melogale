@@ -12,7 +12,7 @@ type AddForeignKeyConstraintPlan struct {
 	name string
 }
 
-func (a AddForeignKeyConstraintPlan) FailurePlan() PlanStack {
+func (a AddForeignKeyConstraintPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 

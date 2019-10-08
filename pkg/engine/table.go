@@ -10,7 +10,7 @@ type TableDoesNotExistPlan struct {
 	prefix    []byte
 }
 
-func (t *TableDoesNotExistPlan) FailurePlan() PlanStack {
+func (t *TableDoesNotExistPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 
@@ -51,7 +51,7 @@ type TableDoesExistPlan struct {
 	prefix    []byte
 }
 
-func (t *TableDoesExistPlan) FailurePlan() PlanStack {
+func (t *TableDoesExistPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 

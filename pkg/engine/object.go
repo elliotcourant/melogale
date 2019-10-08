@@ -11,7 +11,7 @@ type ObjectIdPlan struct {
 	prefix     []byte
 }
 
-func (o *ObjectIdPlan) FailurePlan() PlanStack {
+func (o *ObjectIdPlan) AlternatePlan() PlanStack {
 	panic("implement me")
 }
 
