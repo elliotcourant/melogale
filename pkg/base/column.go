@@ -20,10 +20,24 @@ func (c *ColumnHeader) EncodeValue() []byte {
 	return buf.Bytes()
 }
 
+func (c *ColumnHeader) DecodeKey(src []byte) {
+	buf := buffers.NewBytesReader(src)
+	buf.NextByte() // Skip prefix byte
+	c.TableId = buf.NextUint64()
+	c.Name = buf.NextShortString()
+}
+
+func (c *ColumnHeader) DecodeValue(src []byte) {
+	buf := buffers.NewBytesReader(src)
+	c.ColumnId = buf.NextUint8()
+}
+
 func NewColumnNamePrefix(tableId uint64, columnName string) []byte {
 	buf := buffers.NewBytesBuffer()
 	buf.AppendByte('c')
 	buf.AppendUint64(tableId)
-	buf.AppendShortString(columnName)
+	if len(columnName) > 0 {
+		buf.AppendShortString(columnName)
+	}
 	return buf.Bytes()
 }

@@ -20,7 +20,7 @@ type Iterator interface {
 	Rewind()
 	Valid() bool
 	ValidForPrefix(prefix []byte) bool
-	Value() ([]byte, error)
+	Value() (key []byte, value []byte, err error)
 }
 
 type transactionBase struct {
@@ -91,10 +91,12 @@ func (i *iteratorBase) ValidForPrefix(prefix []byte) bool {
 	return i.itr.ValidForPrefix(prefix)
 }
 
-func (i *iteratorBase) Value() ([]byte, error) {
+func (i *iteratorBase) Value() ([]byte, []byte, error) {
 	itm := i.itr.Item()
 	if itm == nil {
-		return nil, nil
+		return nil, nil, nil
 	}
-	return itm.ValueCopy(nil)
+	key := itm.KeyCopy(nil)
+	value, err := itm.ValueCopy(nil)
+	return key, value, err
 }
