@@ -20,7 +20,6 @@ func (p *planner) Insert(stmt ast.InsertStmt) (PlanStage, error) {
 	stage := make(PlanStage, 0)
 
 	columns := make([]base.Column, len(stmt.Cols.Items))
-
 	if len(stmt.Cols.Items) > 0 {
 		for i, col := range stmt.Cols.Items {
 			switch resTarget := col.(type) {
@@ -106,10 +105,6 @@ func (i InsertTablePlan) Run(ctx ExecutionContext) error {
 
 func (i InsertTablePlan) Explain() Explanation {
 	panic("implement me")
-}
-
-func (p *planner) ValuesList(values [][]ast.Node) error {
-	panic("test")
 }
 
 type ValuesListPlan struct {
