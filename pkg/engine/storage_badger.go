@@ -4,6 +4,8 @@ package engine
 
 import (
 	"github.com/dgraph-io/badger"
+	"github.com/elliotcourant/timber"
+	"time"
 )
 
 var _ Store = &badgerStore{}
@@ -64,6 +66,8 @@ func (b *badgerTransaction) Iterator() Iterator {
 }
 
 func (b *badgerTransaction) Commit() error {
+	start := time.Now()
+	defer timber.Tracef("commit took %s", time.Since(start))
 	return b.txn.Commit()
 }
 

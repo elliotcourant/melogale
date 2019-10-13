@@ -2,6 +2,7 @@ package sql
 
 var _ PlanStep = &CreateTablePlan{}
 var _ PlanStep = &InsertTablePlan{}
+var _ PlanStep = &ValuesListPlan{}
 
 type PlanStage []PlanStep
 

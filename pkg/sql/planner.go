@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/elliotcourant/melogale/pkg/ast"
 	"github.com/elliotcourant/melogale/pkg/engine"
+	"github.com/elliotcourant/timber"
+	"time"
 )
 
 var _ Planner = &planner{}
@@ -23,7 +25,10 @@ type queryPlan struct {
 }
 
 func (q *queryPlan) Run() error {
+	start := time.Now()
+	defer timber.Tracef("running took %s", time.Since(start))
 	for _, statement := range q.statements {
+		q.ex.ClearValues()
 		for _, step := range statement {
 			if err := step.Run(q.ex); err != nil {
 				return err
@@ -46,6 +51,8 @@ type planner struct {
 }
 
 func (p *planner) Build(node ast.SyntaxTree) (QueryPlan, error) {
+	start := time.Now()
+	defer timber.Tracef("planning took %s", time.Since(start))
 	plan := &queryPlan{
 		ex:         newExecutionContextEx(p.txn, p.AssistanceContext),
 		statements: make([]PlanStage, 0),
@@ -57,11 +64,10 @@ func (p *planner) Build(node ast.SyntaxTree) (QueryPlan, error) {
 			switch stmtStep.(type) {
 			case ast.RawStmt:
 				stmtStep = stmtStep.(ast.RawStmt).Stmt
-			default:
-				goto BUILD
+				continue
 			}
+			break
 		}
-	BUILD:
 
 		stage, err := make(PlanStage, 0), error(nil)
 		switch stmt := stmtStep.(type) {

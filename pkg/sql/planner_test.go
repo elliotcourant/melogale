@@ -44,5 +44,8 @@ func TestPlan(t *testing.T) {
 
 		err = plan.Run()
 		assert.NoError(t, err, "could not run plan")
+
+		err = txn.Commit()
+		assert.NoError(t, err, "could not commit")
 	})
 }

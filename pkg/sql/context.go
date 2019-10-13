@@ -6,10 +6,15 @@ import (
 	"github.com/elliotcourant/melogale/pkg/engine"
 )
 
+type RowValue map[string]base.Datum
+
 var _ AssistanceContext = &assistanceContext{}
 
 type AssistanceContext interface {
 	GetTable(tableName string) (base.Table, bool, error)
+	GetValues() []RowValue
+	StoreValue(rowValue RowValue)
+	ClearValues()
 }
 
 type ExecutionContext interface {
@@ -41,12 +46,26 @@ func newAssistanceContext(txn engine.Transaction) AssistanceContext {
 	return &assistanceContext{
 		txn:    txn,
 		tables: map[string]base.Table{},
+		values: make([]RowValue, 0),
 	}
 }
 
 type assistanceContext struct {
 	txn    engine.Transaction
 	tables map[string]base.Table
+	values []RowValue
+}
+
+func (a *assistanceContext) ClearValues() {
+	a.values = make([]RowValue, 0)
+}
+
+func (a *assistanceContext) GetValues() []RowValue {
+	return a.values
+}
+
+func (a *assistanceContext) StoreValue(rowValue RowValue) {
+	a.values = append(a.values, rowValue)
 }
 
 func (a *assistanceContext) GetTable(tableName string) (base.Table, bool, error) {
