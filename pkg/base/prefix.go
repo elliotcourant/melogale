@@ -1,8 +1,8 @@
 package base
 
-type Prefix = byte
+type Prefix byte
 
 const (
 	TablePrefix Prefix = iota
-	DatumPrefix
+	RowPrefix
 )

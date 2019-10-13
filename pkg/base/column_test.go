@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"github.com/elliotcourant/timber"
 	"github.com/stretchr/testify/assert"
+	"reflect"
 	"testing"
 )
 
@@ -12,7 +13,7 @@ func TestColumn_EncodeDecode(t *testing.T) {
 		ColumnId: 123,
 		Name:     "account_id",
 		Type: Type{
-			Family: IntFamily,
+			Family: reflect.Int64,
 			Size:   8,
 		},
 		Flags: ColumnPrimaryKey | ColumnIndexed,

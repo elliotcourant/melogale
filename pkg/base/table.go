@@ -52,7 +52,7 @@ func (t Table) EncodeKey() []byte {
 
 func NewTableNameKey(tableName string) []byte {
 	buf := buffers.NewBytesBuffer()
-	buf.AppendByte(TablePrefix)
+	buf.AppendByte(byte(TablePrefix))
 	if len(tableName) > 0 {
 		buf.AppendShortString(tableName)
 	}

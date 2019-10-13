@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"github.com/elliotcourant/timber"
 	"github.com/stretchr/testify/assert"
+	"reflect"
 	"testing"
 )
 
@@ -16,7 +17,7 @@ func TestTable_EncodeDecode(t *testing.T) {
 				ColumnId: 1,
 				Name:     "id",
 				Type: Type{
-					Family: IntFamily,
+					Family: reflect.Int64,
 					Size:   8,
 				},
 				Flags: ColumnPrimaryKey,
@@ -25,7 +26,7 @@ func TestTable_EncodeDecode(t *testing.T) {
 				ColumnId: 2,
 				Name:     "email",
 				Type: Type{
-					Family: StringFamily,
+					Family: reflect.String,
 					Size:   255,
 				},
 				Flags: ColumnUnique | ColumnIndexed,
@@ -34,7 +35,7 @@ func TestTable_EncodeDecode(t *testing.T) {
 				ColumnId: 3,
 				Name:     "password",
 				Type: Type{
-					Family: StringFamily,
+					Family: reflect.String,
 					Size:   50,
 				},
 				Flags: ColumnIndexed,
