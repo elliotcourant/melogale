@@ -4,7 +4,6 @@ import (
 	"encoding/hex"
 	"github.com/elliotcourant/timber"
 	"github.com/stretchr/testify/assert"
-	"reflect"
 	"testing"
 )
 
@@ -13,24 +12,12 @@ func TestRow_EncodeDecode(t *testing.T) {
 		initial := Row{
 			TableId: 123,
 			PrimaryKey: []Datum{
-				{
-					Type:  reflect.Int64,
-					Value: int64(1),
-				},
+				Value{1}.Datum(),
 			},
 			Datums: map[uint8]Datum{
-				1: {
-					Type:  reflect.Int64,
-					Value: int64(1),
-				},
-				2: {
-					Type:  reflect.String,
-					Value: "email@email.com",
-				},
-				3: {
-					Type:  reflect.String,
-					Value: "password",
-				},
+				1: Value{1}.Datum(),
+				2: Value{"email@email.com"}.Datum(),
+				3: Value{"password"}.Datum(),
 			},
 		}
 		key, value := initial.EncodeKey(), initial.EncodeValue()

@@ -4,31 +4,21 @@ import (
 	"encoding/hex"
 	"github.com/elliotcourant/timber"
 	"github.com/stretchr/testify/assert"
-	"reflect"
 	"testing"
 )
 
 func TestDatum_EncodeDecode(t *testing.T) {
-	t.Run("int to string", func(t *testing.T) {
-		initial := Datum{
-			Type:  reflect.String,
-			Value: 123,
-		}
+	t.Run("int", func(t *testing.T) {
+		initial := Value{val: 123}.Datum()
 		encoded := initial.Encode()
 		timber.Debugf("\n%s", hex.Dump(encoded))
 		decoded := Datum{}
 		decoded.Decode(encoded)
-		assert.Equal(t, Datum{
-			Type:  reflect.String,
-			Value: "123",
-		}, decoded)
+		assert.Equal(t, initial, decoded)
 	})
 
-	t.Run("int to int", func(t *testing.T) {
-		initial := Datum{
-			Type:  reflect.Int64,
-			Value: int64(123),
-		}
+	t.Run("string", func(t *testing.T) {
+		initial := Value{val: "123"}.Datum()
 		encoded := initial.Encode()
 		timber.Debugf("\n%s", hex.Dump(encoded))
 		decoded := Datum{}

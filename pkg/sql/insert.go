@@ -43,26 +43,28 @@ func (p *planner) Insert(stmt ast.InsertStmt) (PlanStage, error) {
 		})
 	}
 
+	insertPlan := &InsertTablePlan{
+		stmt:    stmt,
+		table:   table,
+		columns: columns,
+	}
+
 	switch v := stmt.SelectStmt.(type) {
 	case ast.SelectStmt:
 		if v.ValuesLists == nil || len(v.ValuesLists) == 0 {
 			panic("insert from select query not implemented")
 		} else {
-			stage = append(stage, ValuesListPlan{
-				stmt:    v,
-				table:   table,
-				columns: columns,
-			})
+			valueRenderer, err := p.ValuesListRenderer(v, columns, insertPlan)
+			if err != nil {
+				return nil, err
+			}
+			stage = append(stage, valueRenderer...)
 		}
 	default:
 		panic(fmt.Sprintf("insert from [%T] not implemented", v))
 	}
 
-	stage = append(stage, InsertTablePlan{
-		stmt:    stmt,
-		table:   table,
-		columns: columns,
-	})
+	stage = append(stage)
 
 	if len(table.Indexes) > 0 {
 		panic("add insert index plans")
@@ -75,12 +77,16 @@ type InsertTablePlan struct {
 	stmt    ast.InsertStmt
 	table   base.Table
 	columns []base.Column
+	values  []RowValue
+}
+
+func (i *InsertTablePlan) ReceiveRow(row RowValue) {
+	i.values = append(i.values, row)
 }
 
 func (i InsertTablePlan) Run(ctx ExecutionContext) error {
 	rows := make([]base.Row, 0)
-	rowValues := ctx.GetValues()
-	for _, rowValue := range rowValues {
+	for _, rowValue := range i.values {
 		row := base.Row{
 			TableId:    i.table.TableId,
 			PrimaryKey: make([]base.Datum, 0),

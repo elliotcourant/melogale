@@ -6,8 +6,6 @@ import (
 	"github.com/elliotcourant/melogale/pkg/engine"
 )
 
-type RowValue map[string]base.Datum
-
 var _ AssistanceContext = &assistanceContext{}
 
 type AssistanceContext interface {

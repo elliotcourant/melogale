@@ -9,6 +9,7 @@ type Column struct {
 	Name     string
 	Type     Type
 	Flags    ColumnFlag
+	State    State
 }
 
 func (c Column) Encode() []byte {
@@ -17,6 +18,7 @@ func (c Column) Encode() []byte {
 	buf.AppendShortString(c.Name)
 	buf.Append(c.Type.Encode()...)
 	buf.AppendUint8(uint8(c.Flags))
+	buf.AppendUint8(uint8(c.State))
 	return buf.Bytes()
 }
 
@@ -26,4 +28,5 @@ func (c *Column) Decode(src []byte) {
 	c.Name = buf.NextShortString()
 	c.Type.Decode(buf.NextBytes())
 	c.Flags = ColumnFlag(buf.NextUint8())
+	c.State = State(buf.NextUint8())
 }
