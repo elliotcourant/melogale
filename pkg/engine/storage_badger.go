@@ -34,7 +34,6 @@ func (b *badgerStore) Begin() (Transaction, error) {
 type badgerTransaction struct {
 	db  *badgerStore
 	txn *badger.Txn
-	itr *badgerIterator
 }
 
 func (b *badgerTransaction) Get(key []byte) ([]byte, error) {
@@ -50,19 +49,16 @@ func (b *badgerTransaction) Set(key, value []byte) error {
 }
 
 func (b *badgerTransaction) Iterator() Iterator {
-	if b.itr == nil {
-		b.itr = &badgerIterator{
-			itr: b.txn.NewIterator(badger.IteratorOptions{
-				PrefetchValues: true,
-				PrefetchSize:   10,
-				Reverse:        false,
-				AllVersions:    false,
-				Prefix:         nil,
-				InternalAccess: false,
-			}),
-		}
+	return &badgerIterator{
+		itr: b.txn.NewIterator(badger.IteratorOptions{
+			PrefetchValues: true,
+			PrefetchSize:   10,
+			Reverse:        false,
+			AllVersions:    false,
+			Prefix:         nil,
+			InternalAccess: false,
+		}),
 	}
-	return b.itr
 }
 
 func (b *badgerTransaction) Commit() error {

@@ -11,7 +11,7 @@ type Record interface {
 }
 
 type TableReader interface {
-	Table() base.Table
+	Table() Table
 	Seek(primaryKey ...[]byte)
 	Valid() bool
 	Next() bool
@@ -25,13 +25,13 @@ type SchemaReader interface {
 	Valid() bool
 	Next() bool
 	CurrentTableKey() []byte
-	Table() base.Table
+	Table() Table
 	Get(tableName []byte) (base.Table, bool, error)
 }
 
 type IndexReader interface {
-	Table() base.Table
-	Columns() []base.Column
+	Table() Table
+	Columns() []Column
 	Index() base.Index
 	Seek(columnValue ...[]byte)
 	CurrentIndexKey() [][]byte
@@ -42,19 +42,19 @@ type IndexReader interface {
 }
 
 type UniqueConstraintReader interface {
-	Table() base.Table
-	Columns() []base.Column
+	Table() Table
+	Columns() []Column
 	UniqueConstraint() int
 
 	IsUnique(columnValue ...[]byte) (unique bool, err error)
 }
 
 type ForeignConstraintReader interface {
-	LocalTable() base.Table
-	ForeignTable() base.Table
+	LocalTable() Table
+	ForeignTable() Table
 
-	LocalColumns() []base.Column
-	ForeignColumns() []base.Column
+	LocalColumns() []Column
+	ForeignColumns() []Column
 
 	ForeignKey() int
 
