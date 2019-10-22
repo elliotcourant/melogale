@@ -1,13 +1,16 @@
 package engine
 
+type SequenceWriter interface {
+	NewTableID() (uint8, error)
+}
+
 type SchemaWriter interface {
 	CreateTable(table Table) error
 }
 
 type TableWriter interface {
 	Table() Table
-	Insert(records ...Record) error
-	Update(records ...Record) error
+	Upsert(records ...Record) error
 	Delete(records ...Record) error
 }
 

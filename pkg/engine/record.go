@@ -19,7 +19,7 @@ type record struct {
 }
 
 func (r record) PrimaryKeyMap() string {
-	return string(bytes.Join(r.PrimaryKey(), []byte("")))
+	return string(bytes.Join(r.PrimaryKey(), make([]byte, 0)))
 }
 
 func (r record) PrimaryKey() [][]byte {
