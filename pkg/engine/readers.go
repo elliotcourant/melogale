@@ -1,9 +1,5 @@
 package engine
 
-import (
-	"github.com/elliotcourant/melogale/pkg/base"
-)
-
 type TableReader interface {
 	Table() Table
 	Seek(primaryKey ...[]byte)
@@ -26,7 +22,7 @@ type SchemaReader interface {
 type IndexReader interface {
 	Table() Table
 	Columns() []Column
-	Index() base.Index
+	Index() Index
 	Seek(columnValue ...[]byte)
 	CurrentIndexKey() [][]byte
 	Valid() bool
