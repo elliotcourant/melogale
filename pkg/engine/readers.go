@@ -4,12 +4,6 @@ import (
 	"github.com/elliotcourant/melogale/pkg/base"
 )
 
-type Record interface {
-	PrimaryKey() [][]byte
-	ColumnIds() []uint8
-	GetColumn(columnId uint8) ([]byte, bool)
-}
-
 type TableReader interface {
 	Table() Table
 	Seek(primaryKey ...[]byte)
@@ -26,7 +20,7 @@ type SchemaReader interface {
 	Next() bool
 	CurrentTableKey() []byte
 	Table() Table
-	Get(tableName []byte) (base.Table, bool, error)
+	Get(tableName []byte) (Table, bool, error)
 }
 
 type IndexReader interface {
